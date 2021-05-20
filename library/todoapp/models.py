@@ -15,7 +15,7 @@ class Project(models.Model):
 
 class ProjectUsers(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE,)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Todo(models.Model):
