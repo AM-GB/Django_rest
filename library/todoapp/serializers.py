@@ -15,6 +15,8 @@ class TodoModelSerializer(ModelSerializer):
 
 
 class ProjectUsersModelSerializer(ModelSerializer):
+    project = ProjectModelSerializer
+
     class Meta:
         model = ProjectUsers
         fields = '__all__'
