@@ -12,4 +12,4 @@ class UserLimitOffsetPagination(LimitOffsetPagination):
 class UserModelViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
-    pagination_class = UserLimitOffsetPagination
+    # pagination_class = UserLimitOffsetPagination
