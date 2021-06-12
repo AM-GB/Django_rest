@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.mixins import *
 from .models import User
-from .serializers import UserModelSerializer
+from .serializers import UserModelSerializer, UserSerializer
 
 
 class UserLimitOffsetPagination(LimitOffsetPagination):
@@ -12,6 +12,10 @@ class UserLimitOffsetPagination(LimitOffsetPagination):
 
 class UserModelViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    # serializer_class = UserModelSerializer
     permission_classes = [IsAuthenticated]
-    # pagination_class = UserLimitOffsetPagination
+
+    def get_serializer_class(self):
+        if self.request.version == '0.2':
+            return UserModelSerializer
+        return UserSerializer
