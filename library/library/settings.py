@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'graphene_django',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -148,6 +149,11 @@ REST_FRAMEWORK = {
     ],
 
 }
+
+GRAPHENE = {
+    "SCHEMA": "library.schema.schema"
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
