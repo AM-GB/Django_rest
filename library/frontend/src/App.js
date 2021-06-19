@@ -6,6 +6,7 @@ import TodoList from './components/Todo.js';
 import axios from 'axios';
 import LoginForm from './components/Auth.js'
 import ProjectForm from './components/ProjectForm.js';
+import TodoForm from './components/TodoForm.js';
 import Cookies from 'universal-cookie'
 
 import { HashRouter, BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom';
@@ -98,6 +99,18 @@ class App extends React.Component {
       }).catch(error => console.log(error))
   }
 
+  delete_todo(id) {
+    let headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/0.2/todo/${id}`, { headers })
+      .then(response => {
+        this.setState(
+          {
+            'todos': this.state.todos.filter((todo) => todo.id !== id)
+          }
+        )
+      }).catch(error => console.log(error))
+  }
+
   get_token(username, password) {
     axios.post('http://127.0.0.1:8000/api-token-auth/', {
       username: username,
@@ -131,6 +144,24 @@ class App extends React.Component {
       .catch(error => console.log('Wrong password'))
   }
 
+  create_todo(project, user, description) {
+    let headers = this.get_headers()
+    const data = { "project": project, "user": user, 'description': description }
+    console.log("create_project " + project + " - " + user + " - " + description);
+    console.log(user);
+
+    axios
+      .post(
+        'http://127.0.0.1:8000/api/0.2/todo/',
+        data,
+        { headers }
+      )
+      .then(response => {
+        this.load_data();
+      })
+      .catch(error => console.log('Wrong password'))
+  }
+
   render() {
     return (
       <div>
@@ -148,6 +179,9 @@ class App extends React.Component {
                     <Link to='/todo'>Todo</Link>
                   </li>
                   <li>
+                    <Link to='/todo/create'>td_cr</Link>
+                  </li>
+                  <li>
                     <Link to='/project'>Projects</Link>
                   </li>
                   <li>
@@ -163,12 +197,15 @@ class App extends React.Component {
 
             <Switch>
               <Route exact path='/' component={() => <UserList users={this.state.users} />} />
-              <Route exact path='/todo' component={() => <TodoList todos={this.state.todos} />} />
+              <Route exact path='/todo' component={() => <TodoList todos={this.state.todos} delete_todo={(id) => this.delete_todo(id)} />} />
               <Route exact path='/project' component={() => <ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} />
               <Route exact path='/login' component={() => <LoginForm get_token={(username, password) =>
                 this.get_token(username, password)} />} />
               <Route exact path='/project/create'
                 component={() => <ProjectForm create_project={(name, repo, user) => this.create_project(name, repo, user)} user={this.state.users} />} />
+              <Route exact path='/todo/create'
+                component={() => <TodoForm create_todo={(project, user, description) =>
+                  this.create_todo(project, user, description)} user={this.state.users} project={this.state.projects} />} />
               {/* <Route exact path='/project_del' component={() => <ProjectList
                 items={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} /> */}
               {/* <Route component={NotFound404} /> */}
