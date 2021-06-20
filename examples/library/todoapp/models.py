@@ -7,7 +7,7 @@ from authapp.models import User
 class Project(models.Model):
     name = models.CharField('имя проекта', max_length=64)
     repo = models.CharField('ссылка на репозиторий', max_length=250)
-    user_admin = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_admin = models.ManyToManyField(User)
 
     def __str__(self):
         return f'{self.name}'
