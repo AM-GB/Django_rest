@@ -128,9 +128,9 @@ class App extends React.Component {
 
   create_project(name, repo, user) {
     let headers = this.get_headers()
-    const data = { "name": name, "repo": repo, "user": user }
+    const data = { "name": name, "repo": repo, "user_admin": user }
     console.log("create_project " + name + " - " + repo + " - " + user);
-    console.log(user);
+    console.log(this.state.users);
 
     axios
       .post(
@@ -145,10 +145,12 @@ class App extends React.Component {
   }
 
   create_todo(project, user, description) {
+    const is_active = true
     let headers = this.get_headers()
-    const data = { "project": project, "user": user, 'description': description }
+    const data = { "project": Number(project), "user": Number(user), 'description': description, 'is_active': is_active }
     console.log("create_project " + project + " - " + user + " - " + description);
     console.log(user);
+    console.log(Number(user));
 
     axios
       .post(

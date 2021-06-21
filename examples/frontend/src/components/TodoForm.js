@@ -59,7 +59,7 @@ class TodoForm extends React.Component {
 
 
     handleSubmit(event) {
-        this.props.create_todo(this.state.project, this.state.description, this.state.user);
+        this.props.create_todo(this.state.project, this.state.user, this.state.description);
         event.preventDefault();
     }
 
@@ -69,10 +69,11 @@ class TodoForm extends React.Component {
                 <select multiple name="project" className='form-control' onChange={(event) => this.handleChangeProject(event)}>
                     {this.props.project.map((item) => <option value={item.id}>{item.name}</option>)}
                 </select>
-                <input type="text" name="description" placeholder="description" value={this.state.description} onChange={(event) => this.handleChange(event)} />
                 <select multiple name="user" className='form-control' onChange={(event) => this.handleChangeUser(event)}>
                     {this.props.user.map((item) => <option value={item.id}>{item.username}</option>)}
                 </select>
+                <input type="text" name="description" placeholder="description" value={this.state.description} onChange={(event) => this.handleChange(event)} />
+
 
                 <input type="submit" value="Create" />
             </form>
