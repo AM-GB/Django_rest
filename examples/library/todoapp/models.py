@@ -7,7 +7,7 @@ from authapp.models import User
 class Project(models.Model):
     name = models.CharField('имя проекта', max_length=64)
     repo = models.CharField('ссылка на репозиторий', max_length=250)
-    user_admin = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user_admin = models.ManyToManyField(User)
 
     def __str__(self):
         return f'{self.name}'
@@ -22,7 +22,7 @@ class Todo(models.Model):
     project = models.ForeignKey(Project,
                                 on_delete=models.CASCADE,
                                 related_name='todo')
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField('описание', blank=True)
     add_date = models.DateTimeField('время', auto_now_add=True)
     update_date = models.DateTimeField('время', auto_now=True)
